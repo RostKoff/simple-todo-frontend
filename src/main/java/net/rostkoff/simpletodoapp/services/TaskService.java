@@ -16,10 +16,25 @@ public class TaskService {
     }
 
     public void addTask(TaskDto taskDto) {
-        ResponseEntity<Void> response = restClient.post()
+        restClient.post()
                 .uri(API_URL + "/tasks/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(taskDto)
+                .retrieve()
+                .toBodilessEntity();
+    }
+
+    public TaskDto getTask(Long id) {
+        return restClient.get()
+                .uri(API_URL + "/tasks/" + id)
+                .retrieve()
+                .toEntity(TaskDto.class)
+                .getBody();
+    }
+
+    public void deleteTask(Long id) {
+        restClient.delete()
+                .uri(API_URL + "/tasks/" + id)
                 .retrieve()
                 .toBodilessEntity();
     }

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Task</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+<body th:object="${task}">
+    <div class="container">
+        <div class="row">
+            <nav class="navbar navbar-expand navbar-dark bg-primary mb-3">
+                    <ul class="navbar-nav w-100 justify-content-center">
+                        <li class="nav-item px-2">
+                            <a href="#" class="nav-link">View</a>
+                        </li>
+                        <li class="nav-item px-2">
+                            <a href="#" class="nav-link">Add task</a>
+                        </li>
+                    </ul>
+            </nav>
+            <h4 th:text="*{title}" class="text-center"></h4>
+            <h5>Description</h5>
+            <p th:text="*{description}"></p>
+            <h5>Start Date</h5>
+            <p th:text="*{{startDate}}"></p>
+            <h5>End Date</h5>
+            <p th:text="*{{endDate}}"></p>
+            <h5>Close Date</h5>
+            <p th:text="*{closeDate} ? *{{closeDate}} : 'None'"></p>
+            <h5>All day?</h5>
+            <p th:text="*{allDay} ? 'Yes' : 'No' "></p>
+            <div class="d-flex">
+                <form action="#" th:action="@{/tasks/{id}(id=*{id})}" th:method="DELETE">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+                <form action="#" th:action="@{/tasks/edit/{id}(id=*{id})}" class="ms-2" method="GET">
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    <!-- <div class="form-group">
+        <label for="description">Description</label> <br>
+        <input id="description" type="text" maxlength="1000" class="form-control" th:field="*{description}">
+    </div>
+    <div class="form-group">
+        <label for="start-date">Start Date</label> <br>
+        <input id="start-date" type="datetime-local" maxlength="1000" class="form-control" th:field="*{startDate}">
+    </div>
+    <div class="form-group">
+        <label for="end-date">End Date</label> <br>
+        <input id="end-date" type="datetime-local" maxlength="1000" class="form-control" th:field="*{endDate}">
+    </div>
+    <div class="form-group">
+            <label>All day?</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" th:field="*{allDay}" id="allDayTrue" value=1 checked>
+                <label class="form-check-label" for="allDayTrue">
+                    True
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" th:field="*{allDay}" id="allDayFalse" value=0>
+                <label class="form-check-label" for="allDayFalse">
+                    False
+                </label>
+            </div>
+    </div> -->
+</body>
+</html>
