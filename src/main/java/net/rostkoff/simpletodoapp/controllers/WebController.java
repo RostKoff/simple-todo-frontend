@@ -39,7 +39,7 @@ public class WebController {
 
     @GetMapping("/tasks/{id}")
     @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
-    public String getTaskView(Model model, RedirectAttributes redirectAttributes, @PathVariable("id") Long id) {
+    public String getTaskPageView(Model model, RedirectAttributes redirectAttributes, @PathVariable("id") Long id) {
         model.addAttribute("task", taskService.getTask(id));
         return "taskView";
     }
@@ -49,5 +49,12 @@ public class WebController {
         taskService.deleteTask(id);
         redirectAttributes.addAttribute("message", "Task Deleted");
         return "redirect:/";
+    }
+
+    @GetMapping("/tasks/edit/{id}")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    public String getEditPageView(Model model, @PathVariable("id") Long id) {
+        model.addAttribute("task", taskService.getTask(id));
+        return "editTask";
     }
 }

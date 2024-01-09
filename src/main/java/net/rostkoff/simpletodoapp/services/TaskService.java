@@ -2,7 +2,6 @@ package net.rostkoff.simpletodoapp.services;
 
 import net.rostkoff.simpletodoapp.contract.TaskDto;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
