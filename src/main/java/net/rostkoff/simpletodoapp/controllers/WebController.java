@@ -3,13 +3,13 @@ package net.rostkoff.simpletodoapp.controllers;
 import net.rostkoff.simpletodoapp.contract.TaskDto;
 import net.rostkoff.simpletodoapp.services.TaskService;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -17,6 +17,12 @@ public class WebController {
     private final TaskService taskService;
     public WebController(TaskService taskService) {
         this.taskService = taskService;
+    }
+
+    @GetMapping("/")
+    public String getMainView(Model model, RedirectAttributes redirectAttributes) {
+        model.addAttribute("module", "calendar");
+        return "index";
     }
 
     @GetMapping("/welcome")
@@ -27,20 +33,22 @@ public class WebController {
     @GetMapping("/tasks/add")
     public String getAddPageView(Model model, RedirectAttributes redirectAttributes) {
         model.addAttribute("task", new TaskDto());
+        model.addAttribute("module", "addTask");
         return "addTask";
     }
 
     @PostMapping("/tasks/add")
     public String addPage(Model model, TaskDto taskDto, RedirectAttributes redirectAttributes) {
-        taskService.addTask(taskDto);
+        var id = taskService.addTask(taskDto);
         redirectAttributes.addAttribute("message", "Task Created");
-        return "redirect:/";
+        return "redirect:/tasks/" + id;
     }
 
     @GetMapping("/tasks/{id}")
-    @DateTimeFormat(pattern = "dd-MM-yyyy HH:mm")
     public String getTaskPageView(Model model, RedirectAttributes redirectAttributes, @PathVariable("id") Long id) {
-        model.addAttribute("task", taskService.getTask(id));
+        var task = taskService.getTask(id);
+        model.addAttribute("task", task);
+        model.addAttribute("dates", taskService.getFormattedDates(task));
         return "taskView";
     }
 
@@ -52,9 +60,18 @@ public class WebController {
     }
 
     @GetMapping("/tasks/edit/{id}")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    public String getEditPageView(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("task", taskService.getTask(id));
+    public String getEditPageView(Model model, RedirectAttributes redirectAttributes, @PathVariable("id") Long id) {
+        var task = taskService.getTask(id);
+        model.addAttribute("task", task);
+        model.addAttribute("dates", taskService.getFormattedDates(task));
         return "editTask";
+    }
+
+    @PutMapping("/tasks/edit")
+    public String updateTask(Model model, TaskDto taskDto, RedirectAttributes redirectAttributes) {
+        System.out.println(taskDto.getEndDate() + " " + taskDto.getStartDate());
+        taskService.updateTask(taskDto);
+        redirectAttributes.addAttribute("message", "Task Updated");
+        return "redirect:/tasks/" + taskDto.getId();
     }
 }

@@ -1,0 +1,6 @@
+.activated {
+    color: #FFF !important;
+    pointer-events: none;
+    cursor: default;
+    user-select: none;
+}
