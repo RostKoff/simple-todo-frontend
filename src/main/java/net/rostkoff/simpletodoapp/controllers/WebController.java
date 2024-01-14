@@ -1,6 +1,7 @@
 package net.rostkoff.simpletodoapp.controllers;
 
 import net.rostkoff.simpletodoapp.contract.TaskDto;
+import net.rostkoff.simpletodoapp.formatters.IFormatDates;
 import net.rostkoff.simpletodoapp.services.TaskService;
 
 import org.springframework.stereotype.Controller;
@@ -15,19 +16,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class WebController {
     private final TaskService taskService;
-    public WebController(TaskService taskService) {
+    private final IFormatDates<TaskDto> taskDtoFormatter;
+
+    public WebController(TaskService taskService, IFormatDates<TaskDto> taskDtoFormatter) {
         this.taskService = taskService;
+        this.taskDtoFormatter = taskDtoFormatter;
     }
 
     @GetMapping("/")
     public String getMainView(Model model, RedirectAttributes redirectAttributes) {
         model.addAttribute("module", "calendar");
         return "index";
-    }
-
-    @GetMapping("/welcome")
-    public String getWelcomeView() {
-        return "welcome";
     }
     
     @GetMapping("/tasks/add")
@@ -48,7 +47,7 @@ public class WebController {
     public String getTaskPageView(Model model, RedirectAttributes redirectAttributes, @PathVariable("id") Long id) {
         var task = taskService.getTask(id);
         model.addAttribute("task", task);
-        model.addAttribute("dates", taskService.getFormattedDates(task));
+        model.addAttribute("dates", taskDtoFormatter.getFormattedDates(task));
         return "taskView";
     }
 
@@ -63,13 +62,12 @@ public class WebController {
     public String getEditPageView(Model model, RedirectAttributes redirectAttributes, @PathVariable("id") Long id) {
         var task = taskService.getTask(id);
         model.addAttribute("task", task);
-        model.addAttribute("dates", taskService.getFormattedDates(task));
+        model.addAttribute("dates", taskDtoFormatter.getFormattedDates(task));
         return "editTask";
     }
 
     @PutMapping("/tasks/edit")
     public String updateTask(Model model, TaskDto taskDto, RedirectAttributes redirectAttributes) {
-        System.out.println(taskDto.getEndDate() + " " + taskDto.getStartDate());
         taskService.updateTask(taskDto);
         redirectAttributes.addAttribute("message", "Task Updated");
         return "redirect:/tasks/" + taskDto.getId();
