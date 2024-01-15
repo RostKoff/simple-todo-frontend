@@ -8,6 +8,8 @@
     <div class="row">
         <div th:replace="~{fragments/header :: menu}"></div>
 
+        <h1 class="text-center">Add Task</h1>
+
         <form action="#" th:action="@{/tasks/add}" th:object="${task}" method="post">
             <div class="form-group">
                 <label for="title">Title</label> <br>

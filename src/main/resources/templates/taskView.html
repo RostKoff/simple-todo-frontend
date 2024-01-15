@@ -8,29 +8,29 @@
         <div class="row">
             <div th:replace="~{fragments/header :: menu}"></div>
 
-            <h4 th:text="*{title}" class="text-center"></h4>
+            <h4 id="title" th:text="*{title}" class="text-center"></h4>
 
             <h5>Description</h5>
-            <p th:text="*{description}"></p>
+            <p id="description" th:text="*{description}"></p>
 
             <h5>Start Date</h5>
-            <p th:text="*{{startDate}}"></p>
+            <p id="start-date" th:text="*{{startDate}}"></p>
 
             <h5>End Date</h5>
-            <p th:text="*{{endDate}}"></p>
+            <p id="end-date" th:text="*{{endDate}}"></p>
 
             <h5>Close Date</h5>
-            <p th:text="*{closeDate} ? *{{closeDate}} : 'None'"></p>
+            <p id="close-date" th:text="*{closeDate} ? *{{closeDate}} : 'None'"></p>
 
             <h5>All day?</h5>
-            <p th:text="*{allDay} ? 'Yes' : 'No' "></p>
+            <p id="all-day" th:text="*{allDay} ? 'Yes' : 'No' "></p>
 
             <div class="d-flex">
                 <form action="#" th:action="@{/tasks/{id}(id=*{id})}" th:method="DELETE" class="me-3">
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button id="delete-btn" type="submit" class="btn btn-danger">Delete</button>
                 </form>
                 <a th:href="@{/tasks/edit/{id}(id=*{id})}">
-                    <button type="button" class="btn btn-primary">Edit</button>
+                    <button id="edit-btn" type="button" class="btn btn-primary">Edit</button>
                 </a>
             </div>   
         </div> 

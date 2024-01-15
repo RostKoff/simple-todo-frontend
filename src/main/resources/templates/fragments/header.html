@@ -9,10 +9,10 @@
 <nav class="navbar navbar-expand navbar-dark bg-primary mb-3" th:fragment="menu">
     <ul class="navbar-nav w-100 justify-content-center">
         <li class="nav-item px-2">
-            <a th:href="@{/}" class="nav-link" th:classappend="${module == 'calendar' ? 'activated' : ''}">Calendar</a>
+            <a id="menu-calendar" th:href="@{/}" class="nav-link" th:classappend="${module == 'calendar' ? 'activated' : ''}">Calendar</a>
         </li>
         <li class="nav-item px-2">
-            <a th:href="@{/tasks/add}" class="nav-link" th:classappend="${module == 'addTask' ? 'activated' : ''}">Add task</a>
+            <a id="menu-add-task" th:href="@{/tasks/add}" class="nav-link" th:classappend="${module == 'addTask' ? 'activated' : ''}">Add task</a>
         </li>
     </ul>
 </nav>
