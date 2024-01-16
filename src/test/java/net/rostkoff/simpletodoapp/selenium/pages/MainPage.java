@@ -6,10 +6,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class MainPage {
     
-    private static String URL = "http://localhost:8080/";
+    public static String URL = "http://localhost:8080/";
     
     private WebDriver driver;
 
@@ -30,12 +31,13 @@ public class MainPage {
     @FindBy(className="fc-next-button")
     private WebElement nextButton;
 
-    @FindBy(id="fc-event")
+    @FindBy(className="fc-event")
     private List<WebElement> tasks;
 
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     public void open() {
@@ -80,7 +82,7 @@ public class MainPage {
         return tasks;
     }
 
-    public void refillTasks() {
+    private void refillTasks() {
         tasks.clear();
         tasks = driver.findElements(By.id("fc-event"));
     }

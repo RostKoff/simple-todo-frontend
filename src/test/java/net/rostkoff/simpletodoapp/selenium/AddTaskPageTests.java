@@ -1,13 +1,17 @@
 package net.rostkoff.simpletodoapp.selenium;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import net.rostkoff.simpletodoapp.selenium.pages.AddTaskPage;
+import net.rostkoff.simpletodoapp.selenium.pages.TaskViewPage;
 
 public class AddTaskPageTests {
     private WebDriver driver;
@@ -16,15 +20,46 @@ public class AddTaskPageTests {
     @BeforeEach
     public void init() {
         driver = new ChromeDriver();
-        driver.get("http://google.com");
-        // addTaskPage = new AddTaskPage(driver);
-        // addTaskPage.open();
+        addTaskPage = new AddTaskPage(driver);
+        addTaskPage.open();
     }
 
-    
+    @AfterEach
+    public void close() {
+        driver.quit();
+    }
 
     @Test
     public void openTest() {
-        // assertEquals(driver.getCurrentUrl(), addTaskPage.URL);
+        assertEquals(driver.getCurrentUrl(), addTaskPage.URL);
+        assertEquals("Add Task", addTaskPage.getHeader());
+    }
+
+    @Test
+    public void addTaskButtonTest() {
+        var title = "Test task";
+        var description = "Test description";
+        
+        // Character sequence representing date and time.
+        var charDate = "01012024";
+        var charTime = "0000";
+
+        var expectedDate = "2024-01-01 00:00";
+        TaskViewPage taskViewPage;
+
+        addTaskPage.setTitleInput(title);
+        addTaskPage.setDescriptionInput(description);
+        addTaskPage.setStartDateInput(charDate, Keys.TAB, charTime);
+        addTaskPage.setEndDateInput(charDate, Keys.TAB, charTime);
+        addTaskPage.getAllDayRadioButtons().get("allDayTrue").click();
+
+        taskViewPage = addTaskPage.clickSubmitButton();
+
+        assertTrue(driver.getCurrentUrl().startsWith(TaskViewPage.URL));
+        assertEquals(title, taskViewPage.getTitle());
+        assertEquals(description, taskViewPage.getDescription());
+        assertEquals(expectedDate, taskViewPage.getStartDate());
+        assertEquals(expectedDate, taskViewPage.getEndDate());
+        assertEquals("Yes", taskViewPage.getAllDay());
     }
 }

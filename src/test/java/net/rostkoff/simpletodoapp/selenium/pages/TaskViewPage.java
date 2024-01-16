@@ -5,9 +5,10 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+
 public class TaskViewPage {
 
-    private static String URL = "http://localhost:8080/tasks/";
+    public static String URL = "http://localhost:8080/tasks/";
 
     private WebDriver driver;
 
@@ -19,6 +20,8 @@ public class TaskViewPage {
     private WebElement startDateField;
     @FindBy(id="end-date")
     private WebElement endDateField;
+    @FindBy(id="close-date")
+    private WebElement closeDateField;
     @FindBy(id="all-day")
     private WebElement allDayField;
     @FindBy(id="delete-btn")
@@ -31,7 +34,7 @@ public class TaskViewPage {
         PageFactory.initElements(driver, this);
     }
 
-    public void open(String id) {
+    public void open(Long id) {
         driver.get(URL + id);
     }
     public String getTitle() {
@@ -48,6 +51,9 @@ public class TaskViewPage {
     }
     public String getAllDay() {
         return allDayField.getText();
+    }
+    public String getCloseDate() {
+        return closeDateField.getText();
     }
     public MainPage clickDeleteButton() {
         deleteButton.click();

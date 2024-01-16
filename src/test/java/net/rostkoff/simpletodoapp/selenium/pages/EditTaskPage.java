@@ -9,11 +9,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.HashMap;
+
 public class EditTaskPage {
-    private static String URL = "http://localhost:8080/tasks/edit/";
+    public static String URL = "http://localhost:8080/tasks/edit/";
 
     private WebDriver driver;
 
+    @FindBy(tagName="h1")
+    private WebElement header;
     @FindBy(id="title")
     private WebElement titleInput;
     @FindBy(id="description")
@@ -33,60 +37,59 @@ public class EditTaskPage {
 
     public EditTaskPage(WebDriver driver) {
         this.driver = driver;
-
-        var radioButtonsList = driver.findElements(By.name("allDay"));
-        if(radioButtonsList != null)
-            allDayRadioButtons = radioButtonsList.stream().collect(Collectors.toMap(e -> e.getAttribute("id"), e -> e));
-
+        allDayRadioButtons = new HashMap<>();
         PageFactory.initElements(driver, this);
     }
 
-    public void open(String id) {
+    public void open(Long id) {
         driver.get(URL + id);
     }
 
-    public void getTitle() {
-        titleInput.getText();
+    public String getTitleInputValue() {
+        return titleInput.getAttribute("value");
     }
-    public void getDescription() {
-        descriptionInput.getText();
+    public String getDescriptionInputValue() {
+        return descriptionInput.getAttribute("value");
     }
-    public void getStartDate() {
-        startDateInput.getText();
+    public String getStartDateInputValue() {
+        return startDateInput.getAttribute("value");
     }
-    public void getEndDate() {
-        endDateInput.getText();
+    public String getEndDateInputValue() {
+        return endDateInput.getAttribute("value");
     }
-    public void getCloseDate() {
-        closeDateInput.getText();
+    public String getCloseDateInputValue() {
+        return closeDateInput.getAttribute("value");
     }
-    public boolean isAllDay() {
-        return allDayRadioButtons.get("allDayTrue").isSelected();
+    public Map<String, WebElement> getAllDayRadioButtons() {
+        if (allDayRadioButtons.isEmpty())
+            allDayRadioButtons = driver.findElements(By.name("allDay")).stream()
+                    .collect(Collectors.toMap(e -> e.getAttribute("id"), e -> e));
+        return allDayRadioButtons;
+    }
+    public String getHeader() {
+        return header.getText();
     }
 
-    public void setTitleField(String title) {
+    public void setTitleInput(CharSequence... title) {
+        titleInput.clear();
         titleInput.sendKeys(title);
     }
-    
-    public void setDescriptionField(String description) {
+    public void setDescriptionInput(CharSequence... description) {
+        descriptionInput.clear();
         descriptionInput.sendKeys(description);
     }
-    public void setStartDateField(String startDate) {
+    public void setStartDateInput(CharSequence... startDate) {
+        startDateInput.clear();
         startDateInput.sendKeys(startDate);
     }
-    public void setEndDateField(String endDate) {
+    public void setEndDateInput(CharSequence... endDate) {
+        endDateInput.clear();
         endDateInput.sendKeys(endDate);
     }
-    public void setCloseDateField(String closeDate) {
+    public void setCloseDateInput(CharSequence... closeDate) {
+        closeDateInput.clear();
         closeDateInput.sendKeys(closeDate);
     }
-    public void setAllDay(boolean allDay) {
-        if(allDay)
-            allDayRadioButtons.get("allDayTrue").click();
-        else
-            allDayRadioButtons.get("allDayFalse").click();
-    }
-
     public TaskViewPage clickSubmitButton() {
         submitButton.click();
         return new TaskViewPage(driver);

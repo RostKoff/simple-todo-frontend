@@ -14,13 +14,13 @@
             <p id="description" th:text="*{description}"></p>
 
             <h5>Start Date</h5>
-            <p id="start-date" th:text="*{{startDate}}"></p>
+            <p id="start-date" th:text="${dates.get('startDate')}"></p>
 
             <h5>End Date</h5>
-            <p id="end-date" th:text="*{{endDate}}"></p>
+            <p id="end-date" th:text="${dates.get('endDate')}"></p>
 
             <h5>Close Date</h5>
-            <p id="close-date" th:text="*{closeDate} ? *{{closeDate}} : 'None'"></p>
+            <p id="close-date" th:text="${dates.get('closeDate')} ?: 'None'"></p>
 
             <h5>All day?</h5>
             <p id="all-day" th:text="*{allDay} ? 'Yes' : 'No' "></p>

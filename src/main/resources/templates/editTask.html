@@ -8,6 +8,8 @@
     <div class="row">
         <div th:replace="~{fragments/header :: menu}"></div>
 
+        <h1 class="text-center">Edit Task</h1>
+        
         <form action="#" th:action="@{/tasks/edit}" th:method="put">
             <div class="form-group">
                 <input type="hidden" th:field="*{id}">
