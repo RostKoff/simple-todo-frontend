@@ -71,7 +71,7 @@ public class EditTaskPageTests {
         var editedCharDate = "01012021";
         var editedCharTime = "0000";
 
-        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         var expectedEditedDateString = "2021-01-01 00:00";
         var expectedEditedDate = LocalDateTime.parse(expectedEditedDateString, formatter);      
 

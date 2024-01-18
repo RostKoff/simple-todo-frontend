@@ -13,15 +13,13 @@ import org.openqa.selenium.support.PageFactory;
 
 public class AddTaskPage {
 
-    public final String URL = "http://localhost:8080/tasks/add";
+    public static final String URL = "http://localhost:8080/tasks/add";
 
     private WebDriver driver;
     
     private MenuElement menu;
     @FindBy(tagName = "h1")
     private WebElement header;
-    @FindBy(id = "id")
-    private WebElement taskId;
     @FindBy(id = "title")
     private WebElement titleInput;
     @FindBy(id = "description")

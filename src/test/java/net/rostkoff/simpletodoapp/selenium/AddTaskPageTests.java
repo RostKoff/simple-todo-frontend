@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import net.rostkoff.simpletodoapp.selenium.pages.AddTaskPage;
 import net.rostkoff.simpletodoapp.selenium.pages.TaskViewPage;
+import net.rostkoff.simpletodoapp.services.TaskService;
 
 public class AddTaskPageTests {
     private WebDriver driver;
@@ -31,7 +32,7 @@ public class AddTaskPageTests {
 
     @Test
     public void openTest() {
-        assertEquals(driver.getCurrentUrl(), addTaskPage.URL);
+        assertEquals(AddTaskPage.URL, driver.getCurrentUrl());
         assertEquals("Add Task", addTaskPage.getHeader());
     }
 
@@ -45,8 +46,9 @@ public class AddTaskPageTests {
         var charTime = "0000";
 
         var expectedDate = "2024-01-01 00:00";
+        var taskService = new TaskService();
         TaskViewPage taskViewPage;
-
+        
         addTaskPage.setTitleInput(title);
         addTaskPage.setDescriptionInput(description);
         addTaskPage.setStartDateInput(charDate, Keys.TAB, charTime);
@@ -54,12 +56,16 @@ public class AddTaskPageTests {
         addTaskPage.getAllDayRadioButtons().get("allDayTrue").click();
 
         taskViewPage = addTaskPage.clickSubmitButton();
-
-        assertTrue(driver.getCurrentUrl().startsWith(TaskViewPage.URL));
-        assertEquals(title, taskViewPage.getTitle());
-        assertEquals(description, taskViewPage.getDescription());
-        assertEquals(expectedDate, taskViewPage.getStartDate());
-        assertEquals(expectedDate, taskViewPage.getEndDate());
-        assertEquals("Yes", taskViewPage.getAllDay());
+        
+        try {
+            assertTrue(driver.getCurrentUrl().startsWith(TaskViewPage.URL));
+            assertEquals(title, taskViewPage.getTitle());
+            assertEquals(description, taskViewPage.getDescription());
+            assertEquals(expectedDate, taskViewPage.getStartDate());
+            assertEquals(expectedDate, taskViewPage.getEndDate());
+            assertEquals("Yes", taskViewPage.getAllDay());
+        } finally {
+            taskService.deleteTask(Long.parseLong(taskViewPage.getId()));
+        }
     }
 }

@@ -19,7 +19,7 @@ public class MainPage {
 
     @FindBy(className="fc-listWeek-button")
     private WebElement listButton;
-    @FindBy(className="fc-TimeGridWeek-button")
+    @FindBy(className="fc-timeGridWeek-button")
     private WebElement weekButton;
     @FindBy(className="fc-dayGridMonth-button")
     private WebElement monthButton;

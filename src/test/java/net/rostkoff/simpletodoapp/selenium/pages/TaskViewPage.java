@@ -12,6 +12,8 @@ public class TaskViewPage {
 
     private WebDriver driver;
 
+    @FindBy(id="id")
+    private WebElement idField;
     @FindBy(id="title")
     private WebElement titleField;
     @FindBy(id="description")
@@ -55,6 +57,10 @@ public class TaskViewPage {
     public String getCloseDate() {
         return closeDateField.getText();
     }
+    public String getId() {
+        return idField.getAttribute("data-value");
+    }
+
     public MainPage clickDeleteButton() {
         deleteButton.click();
         return new MainPage(driver);
