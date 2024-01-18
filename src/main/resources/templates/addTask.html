@@ -12,7 +12,6 @@
 
         <form action="#" th:action="@{/tasks/add}" th:object="${task}" method="post">
             <div class="form-group">
-                <input type="hidden" th:value="*{id}">
                 <label for="title">Title</label> <br>
                 <input id="title" type="text" maxlength="64" class="form-control" th:field="*{title}">
             </div>
